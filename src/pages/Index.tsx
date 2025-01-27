@@ -1,4 +1,5 @@
 import TrainingForm from "@/components/TrainingForm/TrainingForm";
+import ConfigurationForm from "@/components/ConfigurationForm";
 
 const Index = () => {
   return (
@@ -10,7 +11,14 @@ const Index = () => {
           </h1>
         </div>
       </header>
-      <TrainingForm />
+      
+      <div className="container mx-auto px-4 space-y-8">
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Configuration Digiforma</h2>
+          <ConfigurationForm />
+        </div>
+        <TrainingForm />
+      </div>
     </div>
   );
 };
