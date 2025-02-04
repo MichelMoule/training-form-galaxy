@@ -22,6 +22,9 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
       substeps: step.substeps
     }));
 
+    // On crée une copie du programme sans les champs de prix
+    const { pricePerClient, pricePerStudent, ...programWithoutPrices } = program;
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -54,7 +57,7 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
         `,
         variables: {
           programInput: {
-            ...program,
+            ...programWithoutPrices,
             steps: formattedSteps
           }
         }
