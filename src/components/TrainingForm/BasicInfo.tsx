@@ -2,6 +2,7 @@
 import { TrainingProgram } from '@/lib/types';
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TitleSection from './components/TitleSection';
 import PricingSection from './components/PricingSection';
 import TrainerSection from './components/TrainerSection';
@@ -12,6 +13,17 @@ interface BasicInfoProps {
   program: TrainingProgram;
   setProgram: (program: TrainingProgram) => void;
 }
+
+type TrainingType = {
+  id: number;
+  label: string;
+};
+
+const trainingTypes: TrainingType[] = [
+  { id: 0, label: "Présentiel" },
+  { id: 1, label: "Mixte" },
+  { id: 2, label: "Distanciel" }
+];
 
 const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
   const handleChange = (field: keyof TrainingProgram, value: any) => {
@@ -50,6 +62,26 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
       <TitleSection program={program} handleChange={handleChange} />
       <PricingSection program={program} handleChange={handleChange} />
       <TrainerSection program={program} handleTrainerChange={handleTrainerChange} />
+      
+      <div className="space-y-2">
+        <Label htmlFor="trainingType">Type de formation</Label>
+        <Select 
+          value={program.trainingPedagogicalModality.toString()} 
+          onValueChange={(value) => handleChange('trainingPedagogicalModality', parseInt(value))}
+        >
+          <SelectTrigger id="trainingType" className="w-full">
+            <SelectValue placeholder="Sélectionnez le type de formation" />
+          </SelectTrigger>
+          <SelectContent>
+            {trainingTypes.map((type) => (
+              <SelectItem key={type.id} value={type.id.toString()}>
+                {type.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <Textarea
@@ -60,6 +92,7 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
           className="h-32"
         />
       </div>
+      
       <DurationSection 
         program={program}
         handleChange={handleChange}
