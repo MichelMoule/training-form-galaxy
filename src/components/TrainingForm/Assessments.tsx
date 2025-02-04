@@ -1,16 +1,37 @@
+
 import { TrainingProgram } from '@/lib/types';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2 } from "lucide-react";
+import { useEffect } from 'react';
 
 interface AssessmentsProps {
   program: TrainingProgram;
   setProgram: (program: TrainingProgram) => void;
 }
 
+const DEFAULT_ASSESSMENTS = [
+  { text: "SUIVI DE L'EXÉCUTION ET ÉVALUATION DES RÉSULTATS" },
+  { text: "Feuilles de présence" },
+  { text: "Auto-positionnement du bénéficiaire sur les objectifs pédagogiques avant la formation afin de personnaliser le contenu pédagogique" },
+  { text: "Auto-positionnement du bénéficiaire sur les objectifs pédagogiques de la formation en fin de formation pour évaluer sa progression" },
+  { text: "Évaluation de l'atteinte des objectifs du bénéficiaire par le formateur en fin de formation" },
+  { text: "Certificat de réalisation de la formation remis en fin de parcours" }
+];
+
 const Assessments = ({ program, setProgram }: AssessmentsProps) => {
+  useEffect(() => {
+    // N'ajoute les évaluations par défaut que si la liste est vide
+    if (program.assessments.length === 0) {
+      setProgram({
+        ...program,
+        assessments: DEFAULT_ASSESSMENTS
+      });
+    }
+  }, []);
+
   const addItem = (field: 'assessments' | 'pedagogicalResources') => {
     setProgram({
       ...program,
