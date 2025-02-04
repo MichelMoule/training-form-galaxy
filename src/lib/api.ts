@@ -1,3 +1,4 @@
+
 import { TrainingProgram } from './types';
 
 const getDigiformaConfig = () => {
@@ -38,6 +39,9 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
               }
               steps {
                 text
+                substeps {
+                  text
+                }
               }
             }
           }

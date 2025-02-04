@@ -1,3 +1,4 @@
+
 export interface TrainingProgram {
   name: string;
   subtitle: string;
@@ -13,7 +14,11 @@ export interface TrainingProgram {
     min: number;
     max: number;
   };
-  steps: { text: string }[];
+  steps: {
+    title: string;
+    text: string;
+    substeps: { text: string }[];
+  }[];
   goals: { text: string }[];
   prerequisites: { text: string }[];
   assessments: { text: string }[];
