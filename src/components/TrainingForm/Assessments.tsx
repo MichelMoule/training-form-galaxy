@@ -13,7 +13,6 @@ interface AssessmentsProps {
 }
 
 const DEFAULT_ASSESSMENTS = [
-  { text: "SUIVI DE L'EXÉCUTION ET ÉVALUATION DES RÉSULTATS" },
   { text: "Feuilles de présence" },
   { text: "Auto-positionnement du bénéficiaire sur les objectifs pédagogiques avant la formation afin de personnaliser le contenu pédagogique" },
   { text: "Auto-positionnement du bénéficiaire sur les objectifs pédagogiques de la formation en fin de formation pour évaluer sa progression" },
@@ -21,14 +20,22 @@ const DEFAULT_ASSESSMENTS = [
   { text: "Certificat de réalisation de la formation remis en fin de parcours" }
 ];
 
+const HANDICAPPED_ACCESSIBILITY = "Les situations de handicap seront étudiées au cas par cas.";
+
 const Assessments = ({ program, setProgram }: AssessmentsProps) => {
   useEffect(() => {
-    // N'ajoute les évaluations par défaut que si la liste est vide
     if (program.assessments.length === 0) {
       setProgram({
         ...program,
-        assessments: DEFAULT_ASSESSMENTS
+        assessments: DEFAULT_ASSESSMENTS,
+        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY
       });
+    } else {
+      // S'assurer que handicappedAccessibility est toujours défini
+      setProgram(prev => ({
+        ...prev,
+        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY
+      }));
     }
   }, []);
 
@@ -40,6 +47,10 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
   };
 
   const removeItem = (field: 'assessments' | 'pedagogicalResources', index: number) => {
+    // Ne permettre la suppression que des éléments ajoutés manuellement
+    if (field === 'assessments' && index < DEFAULT_ASSESSMENTS.length) {
+      return;
+    }
     const newItems = program[field].filter((_, i) => i !== index);
     setProgram({
       ...program,
@@ -48,6 +59,10 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
   };
 
   const updateItem = (field: 'assessments' | 'pedagogicalResources', index: number, text: string) => {
+    // Ne permettre la modification que des éléments ajoutés manuellement
+    if (field === 'assessments' && index < DEFAULT_ASSESSMENTS.length) {
+      return;
+    }
     const newItems = program[field].map((item, i) => 
       i === index ? { text } : item
     );
@@ -73,14 +88,18 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
             value={item.text}
             onChange={(e) => updateItem(field, index, e.target.value)}
             placeholder={`${title}...`}
+            readOnly={field === 'assessments' && index < DEFAULT_ASSESSMENTS.length}
+            className={field === 'assessments' && index < DEFAULT_ASSESSMENTS.length ? 'bg-gray-100' : ''}
           />
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => removeItem(field, index)}
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          {!(field === 'assessments' && index < DEFAULT_ASSESSMENTS.length) && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => removeItem(field, index)}
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          )}
         </div>
       ))}
     </div>
@@ -92,16 +111,6 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
       {renderSection("Ressources pédagogiques", "pedagogicalResources")}
 
       <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="handicappedAccessibility">Accessibilité handicap</Label>
-          <Textarea
-            id="handicappedAccessibility"
-            value={program.handicappedAccessibility}
-            onChange={(e) => setProgram({ ...program, handicappedAccessibility: e.target.value })}
-            placeholder="Informations sur l'accessibilité..."
-          />
-        </div>
-
         <div className="space-y-2">
           <Label htmlFor="satisfactionDescription">Satisfaction</Label>
           <Textarea
