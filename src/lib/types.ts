@@ -26,13 +26,17 @@ export interface TrainingProgram {
   targets: { text: string }[];
   handicappedAccessibility: string;
   satisfactionDescription: string;
-  // Nouveaux champs (non envoyés à l'API)
+  // Champs non envoyés à l'API
   pricePerClient?: number;
   pricePerStudent?: number;
   trainer?: {
     firstName: string;
     lastName: string;
     email: string;
+  };
+  startDate?: {
+    isPlanned: boolean;
+    date?: Date;
   };
 }
 

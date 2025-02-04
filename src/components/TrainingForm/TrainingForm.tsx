@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress"
 import BasicInfo from './BasicInfo';
 import Steps from './Steps';
 import Goals from './Goals';
@@ -32,7 +34,10 @@ const initialProgram: TrainingProgram = {
   pedagogicalResources: [],
   targets: [],
   handicappedAccessibility: '',
-  satisfactionDescription: ''
+  satisfactionDescription: '',
+  startDate: {
+    isPlanned: false
+  }
 };
 
 const TrainingForm = () => {
@@ -47,6 +52,8 @@ const TrainingForm = () => {
     { title: "Évaluations et ressources", isValid: true },
     { title: "Prévisualisation", isValid: true }
   ];
+
+  const progress = ((currentStep + 1) / formSteps.length) * 100;
 
   const handleSubmit = async () => {
     try {
@@ -85,6 +92,7 @@ const TrainingForm = () => {
     <div className="container mx-auto px-4 py-8">
       <Card className="p-6">
         <div className="mb-8">
+          <Progress value={progress} className="mb-4" />
           <div className="flex justify-between items-center mb-4">
             {formSteps.map((step, index) => (
               <div

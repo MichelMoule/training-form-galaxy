@@ -1,5 +1,7 @@
 
 import { TrainingProgram } from '@/lib/types';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 interface PreviewProps {
   program: TrainingProgram;
@@ -78,6 +80,13 @@ const Preview = ({ program }: PreviewProps) => {
           <p>{program.capacity.min} à {program.capacity.max} participants</p>
         </div>
       </div>
+
+      {program.startDate?.isPlanned && program.startDate.date && (
+        <div className="p-4 bg-yellow-50 rounded mb-6">
+          <p className="font-medium">Date de démarrage prévue</p>
+          <p>{format(program.startDate.date, 'PPP', { locale: fr })}</p>
+        </div>
+      )}
 
       <div className="mb-6">
         <h3 className="font-medium text-lg mb-2">Description</h3>
