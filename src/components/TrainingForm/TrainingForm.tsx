@@ -94,7 +94,12 @@ const TrainingForm = () => {
     <div className="container mx-auto px-4 pb-8">
       <Card className="p-6 shadow-lg border-brand-secondary/20">
         <div className="mb-8">
-          <Progress value={progress} className="mb-4 bg-brand-lime/30" indicatorClassName="bg-brand-secondary" />
+          <Progress 
+            value={progress} 
+            className="mb-4 bg-brand-lime/30"
+            // Correction : Utiliser className au lieu de indicatorClassName
+            // La Progress bar va hériter du style bg-brand-secondary
+          />
           <div className="flex justify-between items-center mb-4">
             {formSteps.map((step, index) => (
               <div
