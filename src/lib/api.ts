@@ -23,7 +23,7 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
     }));
 
     // On crée une copie du programme sans les champs qu'on ne veut pas envoyer à l'API
-    const { pricePerClient, pricePerStudent, startDate, ...programWithoutExtraFields } = program;
+    const { pricePerClient, pricePerStudent, startDate, trainer, ...programWithoutExtraFields } = program;
 
     // Si aucun prérequis n'est défini, on ajoute la valeur par défaut "AUCUN"
     const prerequisites = program.prerequisites.length === 0 
