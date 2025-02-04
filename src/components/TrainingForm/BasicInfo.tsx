@@ -29,11 +29,9 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
   };
 
   const handleHoursChange = (hours: number) => {
-    const days = Math.ceil(hours / 7);
     setProgram({
       ...program,
-      durationInHours: hours,
-      durationInDays: days
+      durationInHours: hours
     });
   };
 

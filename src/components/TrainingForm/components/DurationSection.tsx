@@ -11,6 +11,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
 
 interface DurationSectionProps {
   program: TrainingProgram;
@@ -25,6 +27,8 @@ const DurationSection = ({
   handleHoursChange,
   handleStartDateChange
 }: DurationSectionProps) => {
+  const showWarning = program.durationInHours > program.durationInDays * 7;
+
   return (
     <Card className="p-4 bg-gray-50">
       <h3 className="font-medium text-lg mb-4">Durée et planification</h3>
@@ -36,10 +40,9 @@ const DurationSection = ({
               id="durationInHours"
               type="number"
               value={program.durationInHours}
-              onChange={(e) => handleHoursChange(parseInt(e.target.value))}
+              onChange={(e) => handleHoursChange(parseInt(e.target.value) || 0)}
               min="0"
             />
-            <p className="text-sm text-gray-500">La durée en jours est calculée sur une base de 7h/jour</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="durationInDays">Durée (jours)</Label>
@@ -47,11 +50,20 @@ const DurationSection = ({
               id="durationInDays"
               type="number"
               value={program.durationInDays}
-              readOnly
-              className="bg-gray-100"
+              onChange={(e) => handleChange('durationInDays', parseInt(e.target.value) || 0)}
+              min="0"
             />
           </div>
         </div>
+
+        {showWarning && (
+          <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
+            <AlertTriangle className="h-4 w-4 text-yellow-600" />
+            <AlertDescription className="text-yellow-800">
+              Attention : La durée moyenne dépasse 7 heures par jour
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
