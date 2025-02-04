@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,10 +29,10 @@ const ConfigurationForm = () => {
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 border-t-4 border-t-brand-secondary shadow-lg bg-white">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="endpoint">Endpoint Digiforma</Label>
+          <Label htmlFor="endpoint" className="text-brand-primary font-pompiere text-lg">Endpoint Digiforma</Label>
           <Input
             id="endpoint"
             type="url"
@@ -39,11 +40,12 @@ const ConfigurationForm = () => {
             onChange={(e) => setEndpoint(e.target.value)}
             placeholder="https://api.digiforma.com/graphql"
             required
+            className="border-brand-secondary/20 focus:border-brand-secondary"
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="apiKey">Clé API</Label>
+          <Label htmlFor="apiKey" className="text-brand-primary font-pompiere text-lg">Clé API</Label>
           <Input
             id="apiKey"
             type="password"
@@ -51,10 +53,14 @@ const ConfigurationForm = () => {
             onChange={(e) => setApiKey(e.target.value)}
             placeholder="Votre clé API Digiforma"
             required
+            className="border-brand-secondary/20 focus:border-brand-secondary"
           />
         </div>
 
-        <Button type="submit">
+        <Button 
+          type="submit"
+          className="w-full bg-brand-secondary hover:bg-brand-secondary/90 text-white"
+        >
           Sauvegarder la configuration
         </Button>
       </form>
