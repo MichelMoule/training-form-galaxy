@@ -1,3 +1,4 @@
+
 import { TrainingProgram } from '@/lib/types';
 
 interface PreviewProps {
@@ -13,6 +14,25 @@ const Preview = ({ program }: PreviewProps) => {
           <li key={index}>{item.text}</li>
         ))}
       </ul>
+    </div>
+  );
+
+  const renderSteps = () => (
+    <div className="mb-6">
+      <h3 className="font-medium text-lg mb-2">Modules de formation</h3>
+      {program.steps.map((step, index) => (
+        <div key={index} className="mb-4">
+          <h4 className="font-medium mb-2">{step.title}</h4>
+          <p className="mb-2 whitespace-pre-wrap">{step.text}</p>
+          {step.substeps && step.substeps.length > 0 && (
+            <ul className="list-disc pl-5 space-y-1">
+              {step.substeps.map((substep, subIndex) => (
+                <li key={subIndex}>{substep.text}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
     </div>
   );
 
@@ -39,7 +59,7 @@ const Preview = ({ program }: PreviewProps) => {
         <p className="whitespace-pre-wrap">{program.description}</p>
       </div>
 
-      {renderList(program.steps, "Modules de formation")}
+      {renderSteps()}
       {renderList(program.goals, "Objectifs")}
       {renderList(program.prerequisites, "Prérequis")}
       {renderList(program.targets, "Public cible")}
