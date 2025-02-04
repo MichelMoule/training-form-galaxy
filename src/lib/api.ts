@@ -12,6 +12,8 @@ const getDigiformaConfig = () => {
   return { endpoint, apiKey };
 };
 
+const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/qxkqwvwpe5hgkbfd39k2c298mjonpgtb';
+
 export const createTrainingProgram = async (program: TrainingProgram) => {
   try {
     const { endpoint, apiKey } = getDigiformaConfig();
@@ -30,6 +32,7 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
       ? [{ text: "AUCUN" }]
       : program.prerequisites;
 
+    // Appel à l'API Digiforma
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -71,6 +74,21 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
     });
     
     const data = await response.json();
+
+    // Envoi des données complètes au webhook Make.com
+    await fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...program,
+        formattedSteps,
+        prerequisites,
+        digiformaResponse: data
+      }),
+    });
+
     return data;
   } catch (error) {
     console.error('Error creating training program:', error);
