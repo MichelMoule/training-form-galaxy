@@ -1,4 +1,3 @@
-
 import { TrainingProgram } from '@/lib/types';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,7 +56,7 @@ const DurationSection = ({
         </div>
 
         {showWarning && (
-          <Alert variant="warning" className="bg-yellow-50 border-yellow-200">
+          <Alert variant="destructive" className="bg-yellow-50 border-yellow-200">
             <AlertTriangle className="h-4 w-4 text-yellow-600" />
             <AlertDescription className="text-yellow-800">
               Attention : La durée moyenne dépasse 7 heures par jour

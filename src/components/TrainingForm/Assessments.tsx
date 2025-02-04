@@ -33,11 +33,12 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
       });
     } else {
       // S'assurer que handicappedAccessibility et satisfactionDescription sont toujours définis
-      setProgram(prev => ({
-        ...prev,
+      const updatedProgram: TrainingProgram = {
+        ...program,
         handicappedAccessibility: HANDICAPPED_ACCESSIBILITY,
         satisfactionDescription: DEFAULT_SATISFACTION
-      }));
+      };
+      setProgram(updatedProgram);
     }
   }, []);
 
