@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,18 +19,6 @@ export default {
 		},
 		extend: {
 			colors: {
-				// Ajout des couleurs de la charte graphique
-				brand: {
-					primary: '#2B2E83',    // Bleu foncé
-					secondary: '#12A19A',  // Turquoise
-					accent1: '#D60B52',    // Rouge
-					accent2: '#E94E1B',    // Orange
-					accent3: '#DDDC00',    // Jaune
-					dark: '#201846',       // Bleu très foncé
-					green: '#2FAC66',      // Vert
-					purple: '#951B81',     // Violet
-					lime: '#C4D983',       // Vert clair
-				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -83,12 +70,20 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: { height: '0' },
-					to: { height: 'var(--radix-accordion-content-height)' }
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
 				},
 				'accordion-up': {
-					from: { height: 'var(--radix-accordion-content-height)' },
-					to: { height: '0' }
+					from: {
+						height: 'var(--radix-accordion-content-height)'
+					},
+					to: {
+						height: '0'
+					}
 				}
 			},
 			animation: {

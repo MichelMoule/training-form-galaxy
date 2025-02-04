@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,16 +23,15 @@ const ConfigurationForm = () => {
     localStorage.setItem('DIGIFORMA_API_KEY', apiKey);
     toast({
       title: "Configuration sauvegardée",
-      description: "Les paramètres Digiforma ont été mis à jour.",
-      className: "bg-brand-green text-white"
+      description: "Les paramètres Digiforma ont été mis à jour."
     });
   };
 
   return (
-    <Card className="p-6 shadow-lg border-brand-secondary/20">
+    <Card className="p-6">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="endpoint" className="text-brand-primary">Endpoint Digiforma</Label>
+          <Label htmlFor="endpoint">Endpoint Digiforma</Label>
           <Input
             id="endpoint"
             type="url"
@@ -41,12 +39,11 @@ const ConfigurationForm = () => {
             onChange={(e) => setEndpoint(e.target.value)}
             placeholder="https://api.digiforma.com/graphql"
             required
-            className="border-brand-secondary/20 focus-visible:ring-brand-secondary"
           />
         </div>
         
         <div className="space-y-2">
-          <Label htmlFor="apiKey" className="text-brand-primary">Clé API</Label>
+          <Label htmlFor="apiKey">Clé API</Label>
           <Input
             id="apiKey"
             type="password"
@@ -54,14 +51,10 @@ const ConfigurationForm = () => {
             onChange={(e) => setApiKey(e.target.value)}
             placeholder="Votre clé API Digiforma"
             required
-            className="border-brand-secondary/20 focus-visible:ring-brand-secondary"
           />
         </div>
 
-        <Button 
-          type="submit"
-          className="bg-brand-primary hover:bg-brand-primary/90 text-white w-full"
-        >
+        <Button type="submit">
           Sauvegarder la configuration
         </Button>
       </form>
