@@ -60,13 +60,15 @@ const TrainingForm = () => {
       const response = await createTrainingProgram(program);
       toast({
         title: "Programme créé avec succès",
-        description: `Le programme "${program.name}" a été créé.`
+        description: `Le programme "${program.name}" a été créé.`,
+        className: "bg-brand-green text-white"
       });
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description: "Une erreur est survenue lors de la création du programme."
+        description: "Une erreur est survenue lors de la création du programme.",
+        className: "bg-brand-accent1 text-white"
       });
     }
   };
@@ -89,23 +91,23 @@ const TrainingForm = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="p-6">
+    <div className="container mx-auto px-4 pb-8">
+      <Card className="p-6 shadow-lg border-brand-secondary/20">
         <div className="mb-8">
-          <Progress value={progress} className="mb-4" />
+          <Progress value={progress} className="mb-4 bg-brand-lime/30" indicatorClassName="bg-brand-secondary" />
           <div className="flex justify-between items-center mb-4">
             {formSteps.map((step, index) => (
               <div
                 key={index}
                 className={`flex items-center ${
-                  index === currentStep ? 'text-primary' : 'text-gray-400'
+                  index === currentStep ? 'text-brand-primary' : 'text-gray-400'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 
-                  ${index === currentStep ? 'border-primary' : 'border-gray-300'}`}>
+                  ${index === currentStep ? 'border-brand-primary bg-brand-primary text-white' : 'border-gray-300'}`}>
                   {index + 1}
                 </div>
-                <span className="ml-2 hidden sm:inline">{step.title}</span>
+                <span className="ml-2 hidden sm:inline font-medium">{step.title}</span>
               </div>
             ))}
           </div>
@@ -118,17 +120,22 @@ const TrainingForm = () => {
             variant="outline"
             onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
             disabled={currentStep === 0}
+            className="border-brand-secondary text-brand-secondary hover:bg-brand-secondary/10"
           >
             Précédent
           </Button>
           
           {currentStep === formSteps.length - 1 ? (
-            <Button onClick={handleSubmit}>
+            <Button 
+              onClick={handleSubmit}
+              className="bg-brand-primary hover:bg-brand-primary/90 text-white"
+            >
               Créer le programme
             </Button>
           ) : (
             <Button
               onClick={() => setCurrentStep(Math.min(formSteps.length - 1, currentStep + 1))}
+              className="bg-brand-secondary hover:bg-brand-secondary/90 text-white"
             >
               Suivant
             </Button>
