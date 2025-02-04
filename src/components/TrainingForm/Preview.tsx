@@ -43,6 +43,31 @@ const Preview = ({ program }: PreviewProps) => {
         <p className="text-lg text-gray-600">{program.subtitle}</p>
       </div>
 
+      {program.trainer && (
+        <div className="bg-blue-50 p-4 rounded mb-6">
+          <h3 className="font-medium text-lg mb-2">Formateur</h3>
+          <p>{program.trainer.firstName} {program.trainer.lastName}</p>
+          <p className="text-gray-600">{program.trainer.email}</p>
+        </div>
+      )}
+
+      {(program.pricePerClient || program.pricePerStudent) && (
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {program.pricePerClient && (
+            <div className="p-4 bg-green-50 rounded">
+              <p className="font-medium">Prix par client</p>
+              <p>{program.pricePerClient} €</p>
+            </div>
+          )}
+          {program.pricePerStudent && (
+            <div className="p-4 bg-green-50 rounded">
+              <p className="font-medium">Prix par stagiaire</p>
+              <p>{program.pricePerStudent} €</p>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="p-4 bg-gray-50 rounded">
           <p className="font-medium">Durée</p>

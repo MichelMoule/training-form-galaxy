@@ -2,6 +2,8 @@ import { TrainingProgram } from '@/lib/types';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
+import { Info } from "lucide-react";
 
 interface BasicInfoProps {
   program: TrainingProgram;
@@ -13,6 +15,25 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
     setProgram({ ...program, [field]: value });
   };
 
+  const handleTrainerChange = (field: keyof typeof program.trainer, value: string) => {
+    setProgram({
+      ...program,
+      trainer: {
+        ...program.trainer,
+        [field]: value
+      }
+    });
+  };
+
+  const TipBox = ({ children }: { children: React.ReactNode }) => (
+    <div className="bg-blue-50 border-l-4 border-blue-500 p-4 my-4">
+      <div className="flex items-start">
+        <Info className="h-5 w-5 text-blue-500 mr-2 mt-0.5" />
+        <div className="text-sm text-blue-700">{children}</div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -23,6 +44,16 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
           onChange={(e) => handleChange('name', e.target.value)}
           placeholder="Ex: Formation Management d'équipe"
         />
+        <TipBox>
+          <h4 className="font-semibold mb-2">Les conseils pour votre Titre</h4>
+          <ul className="list-disc pl-4 space-y-1">
+            <li><span className="font-medium">Clarté et Pertinence :</span> Reflétez clairement le contenu de la formation avec des mots-clés pertinents.</li>
+            <li><span className="font-medium">Bénéfices Clairs :</span> Mettez en avant les avantages pour les participants.</li>
+            <li><span className="font-medium">Langage Positif :</span> Utilisez des mots comme "transformer", "améliorer", "maîtriser".</li>
+            <li><span className="font-medium">Originalité :</span> Ajoutez une touche unique pour vous démarquer.</li>
+            <li><span className="font-medium">Taille Appropriée :</span> Soyez concis mais descriptif.</li>
+          </ul>
+        </TipBox>
       </div>
 
       <div className="space-y-2">
@@ -30,10 +61,82 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
         <Input
           id="subtitle"
           value={program.subtitle}
+          maxLength={100}
           onChange={(e) => handleChange('subtitle', e.target.value)}
           placeholder="Ex: Développez vos compétences en leadership"
         />
+        <div className="text-sm text-gray-500">
+          {program.subtitle.length}/100 caractères
+        </div>
+        <TipBox>
+          <h4 className="font-semibold mb-2">Conseils pour votre Sous-titre</h4>
+          <ul className="list-disc pl-4 space-y-1">
+            <li><span className="font-medium">Précision Complémentaire :</span> Détaillez le contenu et les compétences visées.</li>
+            <li><span className="font-medium">Public Cible :</span> Précisez à qui s'adresse la formation.</li>
+            <li><span className="font-medium">Format ou Durée :</span> Mentionnez le type de formation et sa durée.</li>
+            <li><span className="font-medium">Valorisation :</span> Indiquez les certifications ou reconnaissances.</li>
+          </ul>
+        </TipBox>
       </div>
+
+      <Card className="p-4 bg-gray-50">
+        <h3 className="font-medium text-lg mb-4">Informations tarifaires</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="pricePerClient">Prix par client (€)</Label>
+            <Input
+              id="pricePerClient"
+              type="number"
+              min="0"
+              value={program.pricePerClient || ''}
+              onChange={(e) => handleChange('pricePerClient', parseFloat(e.target.value))}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="pricePerStudent">Prix par stagiaire (€)</Label>
+            <Input
+              id="pricePerStudent"
+              type="number"
+              min="0"
+              value={program.pricePerStudent || ''}
+              onChange={(e) => handleChange('pricePerStudent', parseFloat(e.target.value))}
+            />
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-4 bg-gray-50">
+        <h3 className="font-medium text-lg mb-4">Informations du formateur</h3>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="trainerFirstName">Prénom</Label>
+              <Input
+                id="trainerFirstName"
+                value={program.trainer?.firstName || ''}
+                onChange={(e) => handleTrainerChange('firstName', e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="trainerLastName">Nom</Label>
+              <Input
+                id="trainerLastName"
+                value={program.trainer?.lastName || ''}
+                onChange={(e) => handleTrainerChange('lastName', e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="trainerEmail">Email</Label>
+            <Input
+              id="trainerEmail"
+              type="email"
+              value={program.trainer?.email || ''}
+              onChange={(e) => handleTrainerChange('email', e.target.value)}
+            />
+          </div>
+        </div>
+      </Card>
 
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
