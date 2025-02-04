@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 
 interface TrainerSectionProps {
   program: TrainingProgram;
-  handleTrainerChange: (field: keyof typeof program.trainer, value: string) => void;
+  handleTrainerChange: (field: keyof TrainingProgram['trainer'], value: string) => void;
 }
 
 const TrainerSection = ({ program, handleTrainerChange }: TrainerSectionProps) => {
