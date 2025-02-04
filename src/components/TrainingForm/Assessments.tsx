@@ -3,7 +3,6 @@ import { TrainingProgram } from '@/lib/types';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2 } from "lucide-react";
 import { useEffect } from 'react';
 
@@ -21,6 +20,7 @@ const DEFAULT_ASSESSMENTS = [
 ];
 
 const HANDICAPPED_ACCESSIBILITY = "Les situations de handicap seront étudiées au cas par cas.";
+const DEFAULT_SATISFACTION = "Satisfaction stagiaires / nombre de stagiaires";
 
 const Assessments = ({ program, setProgram }: AssessmentsProps) => {
   useEffect(() => {
@@ -28,13 +28,15 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
       setProgram({
         ...program,
         assessments: DEFAULT_ASSESSMENTS,
-        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY
+        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY,
+        satisfactionDescription: DEFAULT_SATISFACTION
       });
     } else {
-      // S'assurer que handicappedAccessibility est toujours défini
+      // S'assurer que handicappedAccessibility et satisfactionDescription sont toujours définis
       setProgram(prev => ({
         ...prev,
-        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY
+        handicappedAccessibility: HANDICAPPED_ACCESSIBILITY,
+        satisfactionDescription: DEFAULT_SATISFACTION
       }));
     }
   }, []);
@@ -109,18 +111,6 @@ const Assessments = ({ program, setProgram }: AssessmentsProps) => {
     <div className="space-y-8">
       {renderSection("Évaluations", "assessments")}
       {renderSection("Ressources pédagogiques", "pedagogicalResources")}
-
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="satisfactionDescription">Satisfaction</Label>
-          <Textarea
-            id="satisfactionDescription"
-            value={program.satisfactionDescription}
-            onChange={(e) => setProgram({ ...program, satisfactionDescription: e.target.value })}
-            placeholder="Description de la satisfaction..."
-          />
-        </div>
-      </div>
     </div>
   );
 };
