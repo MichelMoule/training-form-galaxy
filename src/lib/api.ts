@@ -16,6 +16,12 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
   try {
     const { endpoint, apiKey } = getDigiformaConfig();
     
+    // Transformer les steps pour correspondre au format attendu par l'API
+    const formattedSteps = program.steps.map(step => ({
+      text: `${step.title}\n\n${step.text}`, // On combine le titre et le texte
+      substeps: step.substeps
+    }));
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -47,7 +53,10 @@ export const createTrainingProgram = async (program: TrainingProgram) => {
           }
         `,
         variables: {
-          programInput: program
+          programInput: {
+            ...program,
+            steps: formattedSteps
+          }
         }
       }),
     });
