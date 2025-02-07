@@ -1,5 +1,5 @@
 
-import { TrainingProgram } from '@/lib/types';
+import { TrainingProgram, SPECIALTIES } from '@/lib/types';
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -61,6 +61,29 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
   return (
     <div className="space-y-6">
       <TitleSection program={program} handleChange={handleChange} />
+      
+      <div className="space-y-2">
+        <Label htmlFor="specialty" className="after:content-['*'] after:ml-0.5 after:text-red-500">
+          Spécialité
+        </Label>
+        <Select 
+          value={program.specialty}
+          onValueChange={(value) => handleChange('specialty', value)}
+          required
+        >
+          <SelectTrigger id="specialty" className="w-full">
+            <SelectValue placeholder="Sélectionnez une spécialité" />
+          </SelectTrigger>
+          <SelectContent>
+            {SPECIALTIES.map((specialty) => (
+              <SelectItem key={specialty.code} value={specialty.code}>
+                {specialty.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <PricingSection program={program} handleChange={handleChange} />
       <TrainerSection program={program} handleTrainerChange={handleTrainerChange} />
       

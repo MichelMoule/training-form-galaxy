@@ -65,6 +65,7 @@ const TrainingForm = () => {
     if (!program.trainingPedagogicalModality) missingFields.push(requiredFields.trainingPedagogicalModality);
     if (!program.durationInHours) missingFields.push(requiredFields.durationInHours);
     if (!program.durationInDays) missingFields.push(requiredFields.durationInDays);
+    if (!program.specialty) missingFields.push('Spécialité');
 
     return missingFields;
   };
