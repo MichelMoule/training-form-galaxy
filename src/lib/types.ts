@@ -38,10 +38,11 @@ export interface TrainingProgram {
     isPlanned: boolean;
     date?: Date;
   };
-  comment?: string; // Nouveau champ pour les commentaires
+  comment?: string;
 }
 
 export interface FormStep {
   title: string;
-  isValid: boolean;
+  validate: () => string[];
 }
+
