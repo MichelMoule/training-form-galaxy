@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -44,12 +45,73 @@ const TrainingForm = () => {
   const [program, setProgram] = useState<TrainingProgram>(initialProgram);
   const { toast } = useToast();
 
+  const validateBasicInfo = () => {
+    const requiredFields = {
+      name: 'Nom du programme',
+      description: 'Description',
+      trainer: 'Informations du formateur',
+      trainingPedagogicalModality: 'Type de formation',
+      durationInHours: 'Durée en heures',
+      durationInDays: 'Durée en jours'
+    };
+
+    const missingFields = [];
+
+    if (!program.name) missingFields.push(requiredFields.name);
+    if (!program.description) missingFields.push(requiredFields.description);
+    if (!program.trainer?.firstName || !program.trainer?.lastName || !program.trainer?.email) {
+      missingFields.push(requiredFields.trainer);
+    }
+    if (!program.trainingPedagogicalModality) missingFields.push(requiredFields.trainingPedagogicalModality);
+    if (!program.durationInHours) missingFields.push(requiredFields.durationInHours);
+    if (!program.durationInDays) missingFields.push(requiredFields.durationInDays);
+
+    return missingFields;
+  };
+
+  const validateSteps = () => {
+    if (program.steps.length === 0) return ['Au moins une étape'];
+    
+    const invalidSteps = program.steps.filter(step => !step.title || !step.text);
+    if (invalidSteps.length > 0) return ['Toutes les étapes doivent avoir un titre et une description'];
+    
+    return [];
+  };
+
+  const validateGoals = () => {
+    if (program.goals.length === 0) return ['Au moins un objectif'];
+    if (program.prerequisites.length === 0) return ['Au moins un prérequis'];
+    if (program.targets.length === 0) return ['Au moins un public cible'];
+    
+    return [];
+  };
+
+  const validateAssessments = () => {
+    if (program.assessments.length === 0) return ['Au moins une évaluation'];
+    return [];
+  };
+
   const formSteps: FormStep[] = [
-    { title: "Informations de base", isValid: true },
-    { title: "Étapes de formation", isValid: true },
-    { title: "Objectifs et prérequis", isValid: true },
-    { title: "Évaluations et ressources", isValid: true },
-    { title: "Prévisualisation", isValid: true }
+    { 
+      title: "Informations de base", 
+      validate: validateBasicInfo 
+    },
+    { 
+      title: "Étapes de formation", 
+      validate: validateSteps 
+    },
+    { 
+      title: "Objectifs et prérequis", 
+      validate: validateGoals 
+    },
+    { 
+      title: "Évaluations et ressources", 
+      validate: validateAssessments 
+    },
+    { 
+      title: "Prévisualisation", 
+      validate: () => [] 
+    }
   ];
 
   const progress = ((currentStep + 1) / formSteps.length) * 100;
@@ -75,6 +137,19 @@ const TrainingForm = () => {
         description: "Une erreur est survenue lors de la création du programme."
       });
     }
+  };
+
+  const handleNext = () => {
+    const currentValidation = formSteps[currentStep].validate();
+    if (currentValidation.length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Champs requis",
+        description: `Veuillez remplir les champs suivants : ${currentValidation.join(', ')}`
+      });
+      return;
+    }
+    setCurrentStep(Math.min(formSteps.length - 1, currentStep + 1));
   };
 
   const renderStep = () => {
@@ -133,9 +208,7 @@ const TrainingForm = () => {
               Créer le programme
             </Button>
           ) : (
-            <Button
-              onClick={() => setCurrentStep(Math.min(formSteps.length - 1, currentStep + 1))}
-            >
+            <Button onClick={handleNext}>
               Suivant
             </Button>
           )}
@@ -146,3 +219,4 @@ const TrainingForm = () => {
 };
 
 export default TrainingForm;
+
