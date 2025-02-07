@@ -8,6 +8,7 @@ import PricingSection from './components/PricingSection';
 import TrainerSection from './components/TrainerSection';
 import DurationSection from './components/DurationSection';
 import CapacitySection from './components/CapacitySection';
+import CommentSection from './components/CommentSection';
 
 interface BasicInfoProps {
   program: TrainingProgram;
@@ -64,10 +65,11 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
       <TrainerSection program={program} handleTrainerChange={handleTrainerChange} />
       
       <div className="space-y-2">
-        <Label htmlFor="trainingType">Type de formation</Label>
+        <Label htmlFor="trainingType" className="after:content-['*'] after:ml-0.5 after:text-red-500">Type de formation</Label>
         <Select 
           value={program.trainingPedagogicalModality.toString()} 
           onValueChange={(value) => handleChange('trainingPedagogicalModality', parseInt(value))}
+          required
         >
           <SelectTrigger id="trainingType" className="w-full">
             <SelectValue placeholder="Sélectionnez le type de formation" />
@@ -83,13 +85,14 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description" className="after:content-['*'] after:ml-0.5 after:text-red-500">Description</Label>
         <Textarea
           id="description"
           value={program.description}
           onChange={(e) => handleChange('description', e.target.value)}
           placeholder="Description détaillée du programme..."
           className="h-32"
+          required
         />
       </div>
       
@@ -100,6 +103,7 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
         handleStartDateChange={handleStartDateChange}
       />
       <CapacitySection program={program} handleChange={handleChange} />
+      <CommentSection program={program} handleChange={handleChange} />
     </div>
   );
 };

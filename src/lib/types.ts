@@ -38,6 +38,7 @@ export interface TrainingProgram {
     isPlanned: boolean;
     date?: Date;
   };
+  comment?: string; // Nouveau champ pour les commentaires
 }
 
 export interface FormStep {

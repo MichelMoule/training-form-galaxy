@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -57,7 +56,14 @@ const TrainingForm = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await createTrainingProgram(program);
+      const { comment, ...programForApi } = program;
+      
+      const response = await createTrainingProgram(programForApi);
+      
+      if (comment) {
+        console.log("Commentaire à envoyer par email:", comment);
+      }
+
       toast({
         title: "Programme créé avec succès",
         description: `Le programme "${program.name}" a été créé.`
