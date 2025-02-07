@@ -1,8 +1,8 @@
 
-import { TrainingProgram, SPECIALTIES } from '@/lib/types';
+import { TrainingProgram, SPECIALTY_GROUPS } from '@/lib/types';
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TitleSection from './components/TitleSection';
 import PricingSection from './components/PricingSection';
 import TrainerSection from './components/TrainerSection';
@@ -75,10 +75,19 @@ const BasicInfo = ({ program, setProgram }: BasicInfoProps) => {
             <SelectValue placeholder="Sélectionnez une spécialité" />
           </SelectTrigger>
           <SelectContent>
-            {SPECIALTIES.map((specialty) => (
-              <SelectItem key={specialty.code} value={specialty.code}>
-                {specialty.label}
-              </SelectItem>
+            {SPECIALTY_GROUPS.map((group) => (
+              <SelectGroup key={group.id}>
+                <SelectLabel className="font-bold">{group.title}</SelectLabel>
+                {group.specialties.map((specialty) => (
+                  <SelectItem 
+                    key={specialty.code} 
+                    value={specialty.code}
+                    className={specialty.code.endsWith('0') ? "font-semibold" : ""}
+                  >
+                    {specialty.code} - {specialty.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             ))}
           </SelectContent>
         </Select>
